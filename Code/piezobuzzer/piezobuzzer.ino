@@ -10,7 +10,13 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if (analogRead(piezo)>500){
-    tone(buzzer,659,300);
+    tone(buzzer,659,300); 
+    
+//tone(pin, frequency, duration)
+//pin: the pin on which to generate the tone
+//frequency: the frequency of the tone in hertz - unsigned int
+//duration: the duration of the tone in milliseconds (optional) - unsigned long
+    
     delay(300);
     noTone(buzzer);
     }
