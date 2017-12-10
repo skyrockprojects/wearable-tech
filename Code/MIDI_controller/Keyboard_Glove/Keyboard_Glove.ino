@@ -1,3 +1,5 @@
+#include <MIDI.h>
+
 /*
   Piezo Keyboard glove
   
@@ -9,29 +11,27 @@
   BSD license, all text above must be included in any redistribution
   
 */
-const int indexFinger = A9; // the piezo is connected to analog pin 9 (aka D9)
-const int middleFinger = A7; // the piezo is connected to analog pin 7 (aka D6)
-const int thumb = A10; // the piezo is connected to analog pin 10 (aka D10)
-const int pinkyFinger = A11; // the piezo is connected to analog pin 11 (aka D12)
+const int indexFinger = A0; // the piezo is connected to analog pin 9 (aka D9)
+const int middleFinger = A2; // the piezo is connected to analog pin 7 (aka D6)
+const int thumb = A1; // the piezo is connected to analog pin 10 (aka D10)
+const int pinkyFinger = A3; // the piezo is connected to analog pin 11 (aka D12)
 
 const int pins[] = {thumb, indexFinger, middleFinger, pinkyFinger};
-
-char Keys[] =   {'z','x','c','v'};
 
 boolean currentPressed[] = {false, false, false, false};
 
 const int threshold = 40;  // threshold value to decide when the detected sound is a knock or not
 
+// Created and binds the MIDI interface to the default hardware Serial port
+ MIDI_CREATE_DEFAULT_INSTANCE();
+
 void setup()
 {
-  //while (!Serial)
   Serial.begin(115200);
-  Serial.println("start");
-  Keyboard.begin();
 }
 
 
-void loop()                    
+void loop()
 { 
   for (int i=0;i<4;i++) {
     delay(1);
@@ -42,19 +42,14 @@ void loop()
     // check if we are sensing that a finger is touching
     // and that it wasnt already pressed
     if ((total > threshold) && (! currentPressed[i])) {
-      Serial.print("Key pressed #"); Serial.print(i);
-      Serial.print(" ("); Serial.print(Keys[i]); Serial.println(")");
       currentPressed[i] = true;
-
-      Keyboard.press(Keys[i]);
+      Serial.println("pressed");
+      // Send note 42 with velocity 127 on channel 1
+      MIDI.sendNoteOn(42, 127, 1);
     } 
     else if ((total <= threshold) && (currentPressed[i])) {
-      // key was released (no touch, and it was pressed before)
-      Serial.print("Key released #"); Serial.print(i);
-      Serial.print(" ("); Serial.print(Keys[i]); Serial.println(")");
       currentPressed[i] = false;
-      
-      Keyboard.release(Keys[i]);
+      MIDI.sendNoteOff(42, 0, 1);
     }
     
     delay(5);
