@@ -3,7 +3,7 @@ const int indexFinger = A0;
 const int middleFinger = A1; 
 const int thumb = A2; 
 const int pinkyFinger = A3; 
-const int ringFinger = A6; 
+const int ringFinger = A6; //Digital Pin Number 4 on Pro Micro Board
 
 const int pins[] = {thumb, indexFinger, middleFinger, pinkyFinger, ringFinger};
 
