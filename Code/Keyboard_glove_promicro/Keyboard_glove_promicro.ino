@@ -1,4 +1,5 @@
 #include <Keyboard.h>
+
 const int indexFinger = A0;
 const int middleFinger = A1; 
 const int thumb = A2; 
@@ -11,8 +12,9 @@ char Keys_a[] =   {'z','x','c','v','b'};
 char Keys_b[] =   {'n','m',',','.','/'};
 boolean currentPressed_a[] = {false, false, false, false, false};
 boolean currentPressed_b[] = {false, false, false, false, false};
-const int threshold_a = 200;  // threshold value to decide when the detected sound is a knock or not
-const int threshold_b = 800;
+const int threshold_a = 300;  // threshold value to decide when the detected sound is a knock or not
+const int threshold_b = 2000;
+
 
 void setup()
 {
